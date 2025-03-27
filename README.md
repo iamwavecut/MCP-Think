@@ -1,4 +1,5 @@
 # MCP-Think
+[![smithery badge](https://smithery.ai/badge/@iamwavecut/mcp-think)](https://smithery.ai/server/@iamwavecut/mcp-think)
 
 MCP-Think is a Model Context Protocol (MCP) server that implements a "[Think Tool](https://www.anthropic.com/engineering/claude-think-tool)" for LLMs. This tool allows LLMs to record and retrieve their thinking processes during reasoning.
 ---
@@ -18,6 +19,14 @@ curl -fsSL https://raw.githubusercontent.com/iamwavecut/MCP-Think/main/install.s
 ## Installation
 
 There are several ways to install and run MCP-Think:
+
+### Installing via Smithery
+
+To install mcp-think for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@iamwavecut/mcp-think):
+
+```bash
+npx -y @smithery/cli install @iamwavecut/mcp-think --client claude
+```
 
 ### 1. Pre-built Binaries (Recommended for Standalone Use)
 
