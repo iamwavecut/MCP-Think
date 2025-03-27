@@ -100,8 +100,10 @@ else
     DEFAULT_OPTION=2
 fi
 
-read -p "Enter your choice [default: $DEFAULT_OPTION]: " CHOICE
-CHOICE=${CHOICE:-$DEFAULT_OPTION}
+read -r -p "Enter your choice [default: $DEFAULT_OPTION]: " CHOICE
+if [ -z "$CHOICE" ]; then
+    CHOICE=$DEFAULT_OPTION
+fi
 
 # Process the user's choice
 case $CHOICE in
