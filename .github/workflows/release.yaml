@@ -23,7 +23,7 @@ jobs:
       run: echo BUILD_TIME=$(date) >> ${GITHUB_ENV}
 
 
-    - uses: wangyoucao577/go-release-action
+    - uses: wangyoucao577/go-release-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         goos: ${{ matrix.goos }}
