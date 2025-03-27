@@ -79,3 +79,30 @@ go run github.com/iamwavecut/MCP-Think@latest
 ```
 
 The server will print `Starting Think Tool MCP Server with stdio transport...` and wait for MCP requests on stdin.
+
+## Setting up in Cursor
+
+To use MCP-Think with Cursor, follow these steps:
+
+1. Install MCP-Think using one of the installation methods above
+2. Create or update your Cursor MCP configuration file at `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "think-tool": {
+      "command": "think-tool",
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+3. Restart Cursor if it's already running
+4. You can now use the Think Tool in your Cursor conversations with Claude 3.7 Sonnet
+
+Example functions you can use:
+- `mcp_think_tool_think`: Record a thought
+- `mcp_think_tool_get_thoughts`: Retrieve all thoughts
+- `mcp_think_tool_clear_thoughts`: Clear recorded thoughts
+- `mcp_think_tool_get_thought_stats`: Get statistics about thoughts
