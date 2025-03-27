@@ -31,3 +31,6 @@ jobs:
         binary_name: think-tool-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.goos == 'windows' && '.exe' || '' }}
         build_flags: -v
         ldflags: -s -w -X "main.appVersion=${{ env.APP_VERSION }}" -X "main.buildTime=${{ env.BUILD_TIME }}" -X "main.gitCommit=${{ github.sha }}" -X "main.gitRef=${{ github.ref }}"
+        compress_assets: OFF
+        md5sum: false
+        sha256sum: false
