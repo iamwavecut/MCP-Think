@@ -88,16 +88,18 @@ To use MCP-Think with Cursor, follow these steps:
 1. Install MCP-Think using one of the installation methods above
 2. Create or update your Cursor MCP configuration file at `~/.cursor/mcp.json`:
 
-```json
+```javascript
 {
   "mcpServers": {
-    "think-tool": {ß
+    "think-tool": {
       "command": "think-tool", // or absolute path, f.e.: /opt/bin/think-tool
       "transport": "stdio"
     }
   }
 }
 ```
+![Cursor MCP should be initialized](https://github.com/user-attachments/assets/addb8439-8259-4d3f-a055-773d9819468d)
+
 3. Add the following rule to your Cursor rules:
 <details>
 <summary>Cursor settings > Rules > User rules</summary>
@@ -145,3 +147,5 @@ User wants to book 3 tickets to NYC with 2 checked bags each
 </pre>
 </details>
 3. Cursor can now use the Think Tool in your Cursor conversations with Claude 3.7 Sonnet
+![image](https://github.com/user-attachments/assets/e90f61ab-0609-4bd7-961d-f64c49dd15c7)
+
