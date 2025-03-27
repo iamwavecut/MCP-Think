@@ -7,6 +7,7 @@
 *.dll
 *.so
 *.dylib
+think-tool
 
 # Test binary, built with `go test -c`
 *.test
@@ -15,7 +16,7 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
 
 # Go workspace file
 go.work
@@ -23,3 +24,12 @@ go.work.sum
 
 # env file
 .env
+.qodo
+
+# Idea and VSCode files
+.idea/
+.vscode/
+*.iml
+
+# macOS files
+.DS_Store
