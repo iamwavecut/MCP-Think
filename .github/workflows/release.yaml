@@ -27,10 +27,10 @@ jobs:
         github_token: ${{ secrets.GH_TOKEN }}
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
-        goversion: "https://dl.google.com/go/go1.24.1.linux-amd64.tar.gz"
-        binary_name: think-tool-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.goos == 'windows' && '.exe' || '' }}
-        build_flags: -v
-        ldflags: -s -w -X "main.appVersion=${{ env.APP_VERSION }}" -X "main.buildTime=${{ env.BUILD_TIME }}" -X "main.gitCommit=${{ github.sha }}" -X "main.gitRef=${{ github.ref }}"
+        binary_name: think-tool
         compress_assets: OFF
         md5sum: false
         sha256sum: false
+        goversion: "https://dl.google.com/go/go1.24.1.linux-amd64.tar.gz"
+        build_flags: -v
+        ldflags: -s -w -X "main.appVersion=${{ env.APP_VERSION }}" -X "main.buildTime=${{ env.BUILD_TIME }}" -X "main.gitCommit=${{ github.sha }}" -X "main.gitRef=${{ github.ref }}"
