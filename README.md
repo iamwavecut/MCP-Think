@@ -147,5 +147,6 @@ User wants to book 3 tickets to NYC with 2 checked bags each
 </pre>
 </details>
 3. Cursor can now use the Think Tool in your Cursor conversations with Claude 3.7 Sonnet
+
 ![image](https://github.com/user-attachments/assets/e90f61ab-0609-4bd7-961d-f64c49dd15c7)
 
