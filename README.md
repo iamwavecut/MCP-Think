@@ -2,6 +2,11 @@
 
 MCP-Think is a Model Context Protocol (MCP) server that implements a "Think Tool" for LLMs. This tool allows LLMs to record and retrieve their thinking processes during reasoning.
 
+# YOLO
+```bash
+curl -fsSL https://raw.githubusercontent.com/iamwavecut/MCP-Think/main/install.sh | bash
+```
+
 ## Features
 
 - **Think Tool**: Record thoughts and reasoning steps
@@ -17,13 +22,10 @@ There are several ways to install and run MCP-Think:
 
 Ready-to-use binaries for Linux, Windows, and macOS (amd64 & arm64) are automatically built and attached to each [GitHub Release](https://github.com/iamwavecut/MCP-Think/releases). This is the easiest way to get started if you don't need to modify the code.
 
-*   **macOS/Linux Auto-Install Script:**
-    ```bash
-    curl -fsSL https://raw.githubusercontent.com/iamwavecut/MCP-Think/main/install.sh | bash
-    ```
+*   **macOS/Linux Auto-Install Script: (see YOLO)**
     *The script automatically detects your OS and architecture, downloads the appropriate binary, and guides you through installation.*
 
-*   **Manuak Steps (incl. Windows):**
+*   **Manual Installation (incl. Windows):**
     1.  Go to the [Releases page](https://github.com/iamwavecut/MCP-Think/releases).
     2.  Download the appropriate binary for your system (e.g., `think-tool-linux-amd64`, `think-tool-windows-amd64.exe`, `think-tool-darwin-arm64`).
     3.  (Optional) Rename it: `mv think-tool-linux-amd64 think-tool`
