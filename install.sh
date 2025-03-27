@@ -89,15 +89,14 @@ fi
 echo ""
 info "Installation options:"
 echo "  1. System-wide ($SYSTEM_BIN) [requires sudo]"
+DEFAULT_OPTION=2
 if [ -n "$LOCAL_USER_BIN" ]; then
-    echo "  2. User-specific ($LOCAL_USER_BIN)"
-    echo "  3. Current directory (./think-tool) [default]"
+    echo "  2. User-specific ($LOCAL_USER_BIN) [default]"
+    echo "  3. Current directory (./think-tool)"
     echo "  4. Cancel installation"
-    DEFAULT_OPTION=3
 else
     echo "  2. Current directory (./think-tool) [default]"
     echo "  3. Cancel installation"
-    DEFAULT_OPTION=2
 fi
 
 read -r -p "Enter your choice [default: $DEFAULT_OPTION]: " CHOICE
@@ -107,46 +106,39 @@ fi
 
 # Process the user's choice
 case $CHOICE in
-    1)
+    1)  # System-wide installation
         INSTALL_PATH="$SYSTEM_BIN/think-tool"
         info "Installing to $INSTALL_PATH..."
         sudo mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
-        success "Installation completed!"
-        info "You can now run 'think-tool' from anywhere."
         EXEC_CMD="think-tool"
+        success "Installation completed!"
         ;;
-    2)
+    2)  # User-specific or current directory (default)
         if [ -n "$LOCAL_USER_BIN" ]; then
             INSTALL_PATH="$LOCAL_USER_BIN/think-tool"
-            info "Installing to $INSTALL_PATH..."
-            mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
-            success "Installation completed!"
-            info "You can now run 'think-tool' from anywhere."
             EXEC_CMD="think-tool"
         else
             INSTALL_PATH="./think-tool"
-            info "Installing to current directory..."
-            mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
-            success "Installation completed!"
-            info "You can now run './think-tool' from this directory."
             EXEC_CMD="./think-tool"
         fi
+        info "Installing to $INSTALL_PATH..."
+        mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
+        success "Installation completed!"
         ;;
-    3)
+    3)  # Current directory or cancel
         if [ -n "$LOCAL_USER_BIN" ]; then
             INSTALL_PATH="./think-tool"
+            EXEC_CMD="./think-tool"
             info "Installing to current directory..."
             mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
             success "Installation completed!"
-            info "You can now run './think-tool' from this directory."
-            EXEC_CMD="./think-tool"
         else
             warn "Installation cancelled"
             rm -f "$TMP_DOWNLOAD"
             exit 0
         fi
         ;;
-    4)
+    4)  # Cancel installation
         if [ -n "$LOCAL_USER_BIN" ]; then
             warn "Installation cancelled"
             rm -f "$TMP_DOWNLOAD"
