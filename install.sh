@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # MCP-Think Installer Script
 # This script detects your OS and architecture and installs the latest release of MCP-Think.
@@ -37,6 +37,10 @@ case $OS_KERNEL in
         OS='darwin'
         success "Detected OS: macOS"
         ;;
+    MINGW* | MSYS* | CYGWIN*)
+        OS='windows'
+        success "Detected OS: Windows"
+        ;;
     *)
         error "Unsupported operating system: $OS_KERNEL"
         ;;
@@ -56,7 +60,24 @@ case $OS_ARCH in
         ;;
 esac
 
-BINARY_NAME="think-tool-${OS}-${ARCH}"
+# Fetch the latest version from GitHub
+info "Fetching the latest release version..."
+LATEST_VERSION=$(curl -s https://api.github.com/repos/iamwavecut/MCP-Think/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+
+if [ -z "$LATEST_VERSION" ]; then
+    LATEST_VERSION="v0.0.2"  # Fallback version if GitHub API fails
+    warn "Could not determine latest version, using $LATEST_VERSION as fallback"
+else
+    success "Found latest version: $LATEST_VERSION"
+fi
+
+# Add .exe extension for Windows
+EXE_SUFFIX=""
+if [ "$OS" = "windows" ]; then
+    EXE_SUFFIX=".exe"
+fi
+
+BINARY_NAME="think-tool-${LATEST_VERSION}-${OS}-${ARCH}${EXE_SUFFIX}"
 RELEASE_URL="https://github.com/iamwavecut/MCP-Think/releases/latest/download/${BINARY_NAME}"
 TMP_DOWNLOAD="/tmp/think-tool"
 
@@ -89,7 +110,9 @@ fi
 echo ""
 info "Installation options:"
 echo "  1. System-wide ($SYSTEM_BIN) [requires sudo]"
+
 DEFAULT_OPTION=2
+
 if [ -n "$LOCAL_USER_BIN" ]; then
     echo "  2. User-specific ($LOCAL_USER_BIN) [default]"
     echo "  3. Current directory (./think-tool)"
@@ -99,58 +122,64 @@ else
     echo "  3. Cancel installation"
 fi
 
-read -r -p "Enter your choice [default: $DEFAULT_OPTION]: " CHOICE
+if [ -t 0 ]; then
+    # Terminal is interactive
+    read -r -p "Enter your choice [default: $DEFAULT_OPTION]: " CHOICE
+else
+    # Non-interactive mode (e.g., piped)
+    echo "Non-interactive mode detected, using default option: $DEFAULT_OPTION"
+    CHOICE=""
+fi
+
 if [ -z "$CHOICE" ]; then
     CHOICE=$DEFAULT_OPTION
 fi
 
 # Process the user's choice
-case $CHOICE in
-    1)  # System-wide installation
-        INSTALL_PATH="$SYSTEM_BIN/think-tool"
-        info "Installing to $INSTALL_PATH..."
-        sudo mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
+if [ "$CHOICE" = "1" ]; then
+    # System-wide installation
+    INSTALL_PATH="$SYSTEM_BIN/think-tool"
+    info "Installing to $INSTALL_PATH..."
+    sudo mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
+    EXEC_CMD="think-tool"
+    success "Installation completed!"
+elif [ "$CHOICE" = "2" ]; then
+    # User-specific or current directory (default)
+    if [ -n "$LOCAL_USER_BIN" ]; then
+        INSTALL_PATH="$LOCAL_USER_BIN/think-tool"
         EXEC_CMD="think-tool"
-        success "Installation completed!"
-        ;;
-    2)  # User-specific or current directory (default)
-        if [ -n "$LOCAL_USER_BIN" ]; then
-            INSTALL_PATH="$LOCAL_USER_BIN/think-tool"
-            EXEC_CMD="think-tool"
-        else
-            INSTALL_PATH="./think-tool"
-            EXEC_CMD="./think-tool"
-        fi
-        info "Installing to $INSTALL_PATH..."
+    else
+        INSTALL_PATH="./think-tool"
+        EXEC_CMD="./think-tool"
+    fi
+    info "Installing to $INSTALL_PATH..."
+    mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
+    success "Installation completed!"
+elif [ "$CHOICE" = "3" ]; then
+    # Current directory or cancel
+    if [ -n "$LOCAL_USER_BIN" ]; then
+        INSTALL_PATH="./think-tool"
+        EXEC_CMD="./think-tool"
+        info "Installing to current directory..."
         mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
         success "Installation completed!"
-        ;;
-    3)  # Current directory or cancel
-        if [ -n "$LOCAL_USER_BIN" ]; then
-            INSTALL_PATH="./think-tool"
-            EXEC_CMD="./think-tool"
-            info "Installing to current directory..."
-            mv "$TMP_DOWNLOAD" "$INSTALL_PATH"
-            success "Installation completed!"
-        else
-            warn "Installation cancelled"
-            rm -f "$TMP_DOWNLOAD"
-            exit 0
-        fi
-        ;;
-    4)  # Cancel installation
-        if [ -n "$LOCAL_USER_BIN" ]; then
-            warn "Installation cancelled"
-            rm -f "$TMP_DOWNLOAD"
-            exit 0
-        else
-            error "Invalid option: $CHOICE"
-        fi
-        ;;
-    *)
+    else
+        warn "Installation cancelled"
+        rm -f "$TMP_DOWNLOAD"
+        exit 0
+    fi
+elif [ "$CHOICE" = "4" ]; then
+    # Cancel installation
+    if [ -n "$LOCAL_USER_BIN" ]; then
+        warn "Installation cancelled"
+        rm -f "$TMP_DOWNLOAD"
+        exit 0
+    else
         error "Invalid option: $CHOICE"
-        ;;
-esac
+    fi
+else
+    error "Invalid option: $CHOICE"
+fi
 
 echo ""
 info "To run MCP-Think:"
