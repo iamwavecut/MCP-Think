@@ -1,6 +1,6 @@
 # MCP-Think
 
-MCP-Think is a Model Context Protocol (MCP) server that implements a "Think Tool" for LLMs. This tool allows LLMs to record and retrieve their thinking processes during reasoning.
+MCP-Think is a Model Context Protocol (MCP) server that implements a "[Think Tool](https://www.anthropic.com/engineering/claude-think-tool)" for LLMs. This tool allows LLMs to record and retrieve their thinking processes during reasoning.
 
 # YOLO
 ```bash
