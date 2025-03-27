@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # MCP-Think Installer Script
 # This script detects your OS and architecture and installs the latest release of MCP-Think.
